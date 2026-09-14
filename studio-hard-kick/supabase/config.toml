@@ -1,5 +1,0 @@
-project_id = "studio-hardkick"
-[auth]
-enable_signup = false
-[functions.hardkick]
-verify_jwt = false

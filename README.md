@@ -54,4 +54,5 @@ Nenhum gateway bancário, automação não oficial de WhatsApp, cadastro públic
 
 ## Versão publicada
 https://studiohardkick.netlify.app — veja [publicação e limites](docs/PUBLICACAO.md).
+Deploy configurado para Cloudflare Workers.
 
