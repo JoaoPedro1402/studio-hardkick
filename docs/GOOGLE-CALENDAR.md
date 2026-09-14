@@ -7,7 +7,7 @@ A disponibilidade nasce no PostgreSQL. A aplicação **não lê eventos pessoais
 1. Entre no Google Cloud com a conta responsável. Crie ou selecione um projeto para esta integração. Não habilite faturamento, upgrades ou recursos pagos sem autorização do proprietário.
 2. Em APIs & Services → Library, procure **Google Calendar API** e clique em Enable.
 3. Em IAM & Admin → Service Accounts, crie uma conta de serviço, por exemplo `hardkick-calendar`. Não conceda papéis amplos de administrador/editor do projeto. A permissão necessária será concedida na própria agenda.
-4. Na conta de serviço → Keys → Add key → Create new key → JSON. Guarde o arquivo fora do repositório, em local seguro. Nunca envie o JSON ao chat, frontend, GitHub ou Netlify.
+4. Na conta de serviço → Keys → Add key → Create new key → JSON. Guarde o arquivo fora do repositório, em local seguro. Nunca envie o JSON ao chat, frontend, GitHub ou Cloudflare.
 5. Copie `client_email` para `GOOGLE_SERVICE_ACCOUNT_EMAIL` e o conteúdo de `private_key` para `GOOGLE_PRIVATE_KEY`, exclusivamente nos segredos das Edge Functions Supabase.
 
 ## Criar a agenda dedicada

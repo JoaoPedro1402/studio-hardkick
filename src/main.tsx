@@ -42,7 +42,7 @@ function App() {
       .querySelector("link[rel=canonical]")
       ?.setAttribute(
         "href",
-        `${import.meta.env.VITE_SITE_URL || "https://studiohardkick.netlify.app"}${pathname}`,
+        `${import.meta.env.VITE_SITE_URL || "https://studio-hardkick.joaopedrocoelhosilva14.workers.dev"}${pathname}`,
       );
     let robots = document.querySelector("meta[name=robots]");
     if (!robots) {

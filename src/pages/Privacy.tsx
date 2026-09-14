@@ -23,8 +23,8 @@ export default function Privacy() {
         As reservas ficam em banco protegido no Supabase, acessível à
         administração autorizada. Se a integração estiver ativada, os dados da
         reserva também ficam na agenda dedicada do Google Calendar. Esses
-        fornecedores podem processar dados fora do Brasil. O site é hospedado no
-        Netlify. Não vendemos seus dados e não utilizamos suas informações para
+        fornecedores podem processar dados fora do Brasil. O site é hospedado na
+        Cloudflare. Não vendemos seus dados e não utilizamos suas informações para
         publicidade sem autorização específica.
       </p>
       <h2>WhatsApp e pagamento</h2>

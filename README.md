@@ -1,14 +1,14 @@
 # Studio Hard Kick
 
-Aplicação React + Vite + TypeScript, com frontend Netlify e backend Supabase. Usa somente as fotografias oficiais e a imagem dos dois lutadores no hero.
+Aplicação React + Vite + TypeScript, com frontend Cloudflare Workers e backend Supabase. Usa somente as fotografias oficiais e a imagem dos dois lutadores no hero.
 
 ## Estado da entrega
 
-Site e backend publicados. O Supabase gratuito contém a grade oficial, migrations, RLS, função de reservas, Vault e cron ativo. Concorrência, reservas, proteção de dados, login administrativo e confirmação/cancelamento foram testados na API real. A conta de Diego está autorizada; ele deve definir sua senha. Google Calendar fica desativado até receber as credenciais e Pix ainda precisa ser informado. Consulte `docs/PENDENCIAS.md`. GitHub foi dispensado: entrega em ZIP e publicação direta no Netlify.
+Site e backend publicados. O Supabase gratuito contém a grade oficial, migrations, RLS, função de reservas, Vault e cron ativo. Concorrência, reservas, proteção de dados, login administrativo e confirmação/cancelamento foram testados na API real. A conta de Diego está autorizada; ele deve definir sua senha. Google Calendar fica desativado até receber as credenciais e Pix ainda precisa ser informado. Consulte `docs/PENDENCIAS.md`. O projeto oficial está conectado ao GitHub, com publicação automática da branch `main` na Cloudflare.
 
 ## Executar
 
-Requer Node 24. Copie `.env.example` para `.env.local` e configure as três variáveis `VITE_` com os valores públicos de `[build.environment]` em `netlify.toml`. A chave publishable é pública por definição; nunca utilize service_role no frontend. A conexão aponta para o banco real: faça testes de reserva identificados e limpe-os depois. Não inclua `.env.local` em versões distribuídas.
+Requer Node 24. Copie `.env.example` para `.env.local` e configure as três variáveis `VITE_` com os valores públicos do projeto configurados no build da Cloudflare (URL e chave publishable do mesmo Supabase; `VITE_SITE_URL` igual à URL de produção). A chave publishable é pública por definição; nunca utilize service_role no frontend. A conexão aponta para o banco real: faça testes de reserva identificados e limpe-os depois. Não inclua `.env.local` em versões distribuídas.
 
 ```sh
 npm ci
@@ -53,6 +53,7 @@ A grade semanal é administrável no banco. O servidor valida disponibilidade e 
 Nenhum gateway bancário, automação não oficial de WhatsApp, cadastro público administrativo ou serviço pago é necessário pelo código. O uso de provedores continua sujeito às quotas do plano escolhido; não ative upgrades automaticamente.
 
 ## Versão publicada
-https://studiohardkick.netlify.app — veja [publicação e limites](docs/PUBLICACAO.md).
-Deploy configurado para Cloudflare Workers.
+https://studio-hardkick.joaopedrocoelhosilva14.workers.dev — veja [publicação e limites](docs/PUBLICACAO.md).
+Deploy automático na Cloudflare Workers a partir da branch `main`; configuração de assets em `wrangler.jsonc`.
+URL de produção configurada na Cloudflare.
 

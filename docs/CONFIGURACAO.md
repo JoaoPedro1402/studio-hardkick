@@ -12,9 +12,9 @@
 insert into public.admin_users(user_id) values ('UUID_DO_USUARIO_AUTH');
 ```
 
-A autorização usa essa tabela e `getUser()`, nunca metadados editáveis do usuário. Configure URLs de redirecionamento do Auth para `https://studiohardkick.netlify.app/admin?definir-senha=1` e, posteriormente, o domínio definitivo. O acesso inicial pode usar `token_hash` de recuperação verificado pelo Supabase; o frontend remove esse token da URL antes de mostrar o formulário. Configure remetente/SMTP para recuperação por e-mail de forma confiável, conforme o provedor disponível, sem contratar serviço pago automaticamente.
+A autorização usa essa tabela e `getUser()`, nunca metadados editáveis do usuário. Configure URLs de redirecionamento do Auth para `https://studio-hardkick.joaopedrocoelhosilva14.workers.dev/admin?definir-senha=1` e, posteriormente, o domínio definitivo. O acesso inicial pode usar `token_hash` de recuperação verificado pelo Supabase; o frontend remove esse token da URL antes de mostrar o formulário. Configure remetente/SMTP para recuperação por e-mail de forma confiável, conforme o provedor disponível, sem contratar serviço pago automaticamente.
 
-6. Nas **Edge Function Secrets**, configure os segredos listados abaixo. `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` normalmente já são fornecidos pelo ambiente Supabase; não copie a service role para Netlify nem para o frontend.
+6. Nas **Edge Function Secrets**, configure os segredos listados abaixo. `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` normalmente já são fornecidos pelo ambiente Supabase; não copie a service role para Cloudflare nem para o frontend.
 7. Publique a função: `supabase functions deploy hardkick`. O `verify_jwt=false` é intencional: o mesmo endpoint permite consultar slots anonimamente, enquanto ações administrativas verificam o token com `auth.getUser()` e consultam a lista autorizada. Cron valida seu próprio segredo. RPCs de banco são executáveis somente por `service_role`.
 8. Execute os advisors de segurança do Supabase e valide acesso com papéis anon/authenticated. Confirme que nenhuma tabela de reservas é pública.
 
@@ -44,37 +44,32 @@ Para uma nova instalação, configure no Vault antes de executar a migration de 
 - `hardkick_maintenance_url`: `https://REFERENCIA.supabase.co/functions/v1/hardkick`
 - `hardkick_cron_secret`: gerado pela migration de Vault; se definir `CRON_SECRET`, mantenha os dois iguais.
 - `hardkick_rate_limit_secret`: gerado pela migration; fallback de `RATE_LIMIT_SECRET`.
-- `hardkick_allowed_origins`: lista separada por vírgulas; atualmente domínio Netlify e localhost 5173/4173. Remova origens locais após homologação e adicione somente previews autorizados.
+- `hardkick_allowed_origins`: lista separada por vírgulas; incluir `https://studio-hardkick.joaopedrocoelhosilva14.workers.dev`. A origem Cloudflare foi adicionada ao Vault em 14/09/2026, preservando as origens anteriores. Remova origens locais após homologação e adicione somente previews autorizados.
 
 A migration de cron já está aplicada e as chamadas retornaram HTTP 200. O job roda a cada minuto, expira reservas, conclui aulas terminadas e processa a fila Calendar quando habilitada. `supabase/ops/schedule.sql` permite recriar o agendamento com o mesmo nome. Verifique `cron.job_run_details` sem registrar payloads pessoais. A reserva vencida já aparece livre mesmo se o job estiver atrasado, confirmado no banco real.
 
-## Frontend / Netlify
+## Frontend / Cloudflare Workers
 
-Configure no contexto de build apenas:
+O projeto oficial está conectado ao GitHub e publica automaticamente a branch `main`. O arquivo `wrangler.jsonc` aponta para `dist` e mantém o fallback SPA.
 
-- `VITE_SUPABASE_URL`: URL pública do projeto.
-- `VITE_SUPABASE_PUBLISHABLE_KEY`: chave **publishable**, nunca service role.
-- `VITE_SITE_URL`: origem HTTPS canônica.
+Configure no ambiente de **build** da Cloudflare:
 
-O arquivo `.env.example` contém somente nomes e valores vazios. Nunca envie `.env` ao GitHub.
+- `VITE_SUPABASE_URL`: URL pública do mesmo projeto Supabase existente.
+- `VITE_SUPABASE_PUBLISHABLE_KEY`: chave pública publishable desse projeto, nunca service role.
+- `VITE_SITE_URL`: `https://studio-hardkick.joaopedrocoelhosilva14.workers.dev`.
 
-Na publicação atual, os três valores públicos estão em `[build.environment]` de `netlify.toml`. O conector informou sucesso ao cadastrar variáveis, mas a leitura posterior retornou vazia; a configuração no arquivo foi usada para tornar o build reproduzível. Nenhuma chave administrativa está presente.
+Use Node 24, instalação `npm ci` e build `npm run build`. As variáveis VITE são incorporadas durante o build: alterar apenas variáveis de runtime não recompila o frontend. `netlify.toml` permanece como configuração legada, não é utilizado pela Cloudflare.
 
-O projeto Netlify identificado é `studiohardkick`, ID `cd8864be-9b48-462c-a4ee-30233f87cf7b`. `netlify.toml` define build, SPA, redirects antigos e headers de segurança. Preview e produção devem utilizar contextos coerentes e origens liberadas na Edge Function.
+## Supabase ao trocar a origem
+
+A Edge Function usa `ALLOWED_ORIGINS` quando definido; caso contrário, usa `hardkick_allowed_origins` do Vault, com cache de 60 segundos. Inclua a origem HTTPS exata da Cloudflare na configuração efetiva. Não altere URL/chave do projeto, segredos HMAC/cron, RLS ou migrations para trocar o endereço do frontend.
+
+No Auth remoto, configure **Site URL** como `https://studio-hardkick.joaopedrocoelhosilva14.workers.dev` e autorize `https://studio-hardkick.joaopedrocoelhosilva14.workers.dev/admin?definir-senha=1` em **Redirect URLs**. A tela já usa `window.location.origin` para recuperação. Esta configuração do Dashboard é independente do Git e precisa ser conferida; o conector SQL não administra as configurações do Auth. Referência: [URLs de redirecionamento do Supabase](https://supabase.com/docs/guides/auth/redirect-urls).
 
 ## GitHub e deploy contínuo
 
-**Opcional, fora desta entrega por decisão do usuário.** O ZIP e a publicação direta no Netlify são independentes do GitHub. Para atualizar sem GitHub, use a CLI Netlify autenticada, confira o projeto existente, execute o build e publique `dist` como preview; promova a versão após verificação. Consulte `netlify deploy --help` antes do comando. As orientações abaixo ficam como referência futura.
-
-Crie um repositório privado `studio-hardkick` na conta autorizada. A conexão GitHub desta sessão autentica a conta, mas não disponibiliza ferramenta de criação de repositório e não lista repositórios acessíveis. Quando o repositório existir e estiver autorizado ao conector:
-
-```sh
-git remote add origin URL_DO_REPOSITORIO
-git push -u origin main
-```
-
-No projeto Netlify existente, abra Build & deploy → Continuous deployment → Link repository; selecione o repositório, branch `main`, comando `npm run build` e pasta `dist`. A conexão de conta deve ser concluída pelo titular. O workflow `.github/workflows/validate.yml` executa testes e build em cada push/PR. Exija sucesso de CI antes de merge.
+Antes de enviar a `main`, execute `npm test`, `npm run test:e2e` e `npm run build`. O push dispara o deploy conectado à Cloudflare. Após publicar, confira as rotas, metadados e consulta pública de horários. Não há workflow de validação GitHub versionado nesta revisão.
 
 ## Domínio futuro
 
-Adicione o domínio em Domain management do Netlify, configure DNS conforme o painel e aguarde HTTPS. Atualize `VITE_SITE_URL`, canonical/OG em `index.html`, `public/sitemap.xml`, `public/robots.txt` e o JSON-LD em `src/pages/Home.tsx`. Atualize `ALLOWED_ORIGINS` no Supabase e URLs do Auth. Não aponte o domínio definitivo enquanto reservas e login remoto não estiverem verificados.
+Ao adicionar um domínio próprio na Cloudflare, atualize `VITE_SITE_URL`, canonical/OG em `index.html`, `scripts/seo.mjs`, `src/main.tsx`, JSON-LD em `src/pages/Home.tsx`, sitemap e robots. Atualize também CORS e URLs do Auth no Supabase antes de direcionar usuários ao novo domínio.

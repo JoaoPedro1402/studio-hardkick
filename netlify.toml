@@ -6,7 +6,7 @@ NODE_VERSION = "24"
 # Public browser configuration only. RLS protects data; no administrative key belongs here.
 VITE_SUPABASE_URL = "https://iumnzmiebrykwyttdqmu.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_QChtGcheYjWcuv1ze6MxtA_P85LbblR"
-VITE_SITE_URL = "https://studiohardkick.netlify.app"
+VITE_SITE_URL = "https://studio-hardkick.joaopedrocoelhosilva14.workers.dev"
 [[redirects]]
 from = "/professores.html"
 to = "/professores"

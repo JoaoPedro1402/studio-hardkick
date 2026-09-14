@@ -3,8 +3,8 @@
 ## Integrações
 
 - **Supabase:** projeto gratuito `iumnzmiebrykwyttdqmu` ativo, migrations/RLS aplicadas, função publicada, Vault e cron funcionando. A conta Auth de `diegohardkick@gmail.com` foi criada e é a única autorizada em `admin_users`. Login e operações administrativas foram testados na API real. Diego deve definir sua senha pessoal pelo acesso inicial reservado. Revisar no Dashboard a desativação de novos cadastros Auth, URLs de recuperação e remetente/SMTP. A criação pública de um usuário Auth não concede nenhuma permissão administrativa.
-- **GitHub:** dispensado pelo usuário nesta entrega. Não é bloqueio. Código-fonte e histórico locais, ZIP e publicação direta no Netlify.
-- **Netlify:** publicação direta por upload. A configuração pública Supabase fica em `netlify.toml`; a operação de variáveis pelo conector não persistiu os valores, portanto foi substituída por configuração explícita de build. Não há segredos nesse arquivo. Novas versões podem ser publicadas da mesma forma, sem GitHub.
+- **GitHub:** projeto oficial conectado; a branch `main` dispara publicação automática na Cloudflare.
+- **Cloudflare:** produção em https://studio-hardkick.joaopedrocoelhosilva14.workers.dev. Manter as três variáveis públicas VITE no ambiente de build. CORS do Supabase atualizado para essa origem; conferir Site URL e Redirect URLs no Auth remoto.
 - **Google:** projeto/API, conta de serviço, compartilhamento, Calendar ID e chave privada não fornecidos. Adaptador pronto e testes isolados passaram; nenhuma chamada autenticada à agenda real foi validada.
 - **Sentry:** etapa posterior à homologação do backend; não há token/projeto fornecido nem coleta ativa.
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Sitemap: https://studiohardkick.netlify.app/sitemap.xml
+Sitemap: https://studio-hardkick.joaopedrocoelhosilva14.workers.dev/sitemap.xml

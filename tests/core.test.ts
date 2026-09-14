@@ -128,10 +128,10 @@ describe.sequential(
     it("rejeita horário inexistente e antecedência inválida no banco", async () => {
       await expect(
         reserve("diego", new Date(Date.now() + 3600000)),
-      ).rejects.toThrow();
+      ).rejects.toThrow("invalid_time");
       const d = new Date(slots[0].starts_at);
-      d.setUTCHours(6);
-      await expect(reserve("diego", d)).rejects.toThrow("invalid_time");
+      d.setUTCMinutes(1);
+      await expect(reserve("diego", d)).rejects.toThrow("invalid_slot");
     });
     it("vencida fica livre sem cron e não aceita confirmação", async () => {
       const s = (await query("select * from public.hk_availability()")).rows[0];

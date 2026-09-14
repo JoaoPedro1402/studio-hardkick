@@ -1,13 +1,12 @@
 # Publicação e entrega
 
-- Prévia: https://studiohardkick.netlify.app
-- Versão fixa: https://6aa576009a24fc40bb756638--studiohardkick.netlify.app
-- Painel: https://studiohardkick.netlify.app/admin
+- Produção: https://studio-hardkick.joaopedrocoelhosilva14.workers.dev
+- Painel: https://studio-hardkick.joaopedrocoelhosilva14.workers.dev/admin
 - Supabase: `studio-hardkick`, referência `iumnzmiebrykwyttdqmu`, São Paulo, plano Free com custo de criação confirmado em zero.
 
-Netlify confirmou `ready` em 12/09/2026 às 15:56:00 UTC. Publicação direta do código no projeto existente, contexto da plataforma **production**, utilizada como prévia de homologação. GitHub foi dispensado pelo usuário. Nenhum recurso pago foi contratado.
+O projeto oficial está conectado ao GitHub e publica automaticamente a branch `main` na Cloudflare Workers. A configuração de assets está em `wrangler.jsonc`.
 
-## Funcionamento verificado
+## Histórico de homologação do backend (11–12/09/2026)
 
 Frontend e Edge Function conectados ao banco real. Grade oficial, disponibilidade, reserva atômica, recibo protegido, concorrência 201/409, expiração sem cron e rotina periódica testados. No navegador da prévia, o formulário criou uma reserva técnica, mostrou contador, aviso de Pix ausente e link correto de comprovante. O registro técnico foi removido. Console sem erros nessa conferência.
 
@@ -24,8 +23,6 @@ As cinco migrations locais correspondem às versões do Supabase. RLS protege da
 
 Sentry permanece para monitoramento posterior, sem credenciais fornecidas ou coleta ativa. Proteção adicional de senhas vazadas exige Supabase Pro e não foi contratada. Essas limitações não são apresentadas como integrações concluídas.
 
-## Pacote
+## Código e atualizações
 
-studio-hard-kick-producao.zip contém React/TypeScript, imagens oficiais otimizadas, migrations, RLS, Edge Function, adaptador Calendar, testes, .env.example, configuração Netlify e manuais. Exclui node_modules, diretório Git, arquivos .env preenchidos e credenciais de acesso.
-
-O histórico Git local está preservado. Para atualizar, siga CONFIGURACAO.md e ARQUITETURA.md. Publicação direta no Netlify não exige repositório remoto.
+O repositório GitHub é a fonte oficial. Execute testes e build antes de enviar a `main`; o push aciona a publicação Cloudflare. Consulte CONFIGURACAO.md e ARQUITETURA.md. Os relatórios Lighthouse do Netlify foram preservados como evidência histórica e não representam medições da Cloudflare.

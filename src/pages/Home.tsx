@@ -280,7 +280,7 @@ export default function Home() {
           "@context": "https://schema.org",
           "@type": "ExerciseGym",
           name: "Studio Hard Kick",
-          url: "https://studiohardkick.netlify.app",
+          url: "https://studio-hardkick.joaopedrocoelhosilva14.workers.dev",
           telephone: "+5512997907760",
           foundingDate: "2000",
           address: {
