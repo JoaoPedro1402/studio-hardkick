@@ -1,1 +1,1 @@
-{"root":["./src/api.ts","./src/components.tsx","./src/content.ts","./src/main.tsx","./src/pages/Admin.tsx","./src/pages/Booking.tsx","./src/pages/Home.tsx","./src/pages/Privacy.tsx","./src/pages/Teachers.tsx"],"version":"5.9.2"}
+{"root":["./src/api.ts","./src/components.tsx","./src/content.ts","./src/main.tsx","./src/pages/admin.tsx","./src/pages/booking.tsx","./src/pages/home.tsx","./src/pages/privacy.tsx","./src/pages/teachers.tsx"],"version":"5.9.2"}
